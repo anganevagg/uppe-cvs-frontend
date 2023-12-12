@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins');
+// app global css in SCSS form
+.navbar {
+  background-color: $white;
+  color: $primary-text;
+}
+
+.btn-primary {
+  color: $primary;
+  background-color: $white;
+  border: 2px solid $primary;
+}
+
+.btn-primary:hover {
+  background-color: $primary;
+  color: $white;
+}
