@@ -1,7 +1,22 @@
 import { defineStore } from 'pinia';
-
-export const useLoginStore = defineStore('login', {
-  state: () => ({
-    token: null,
-  }),
+const storeName = 'login';
+export const useLoginStore = defineStore(storeName, {
+  state: (): {
+    token: string | null;
+  } => {
+    const token = localStorage.getItem(storeName);
+    return {
+      token: token,
+    };
+  },
+  actions: {
+    setToken(token: string) {
+      this.token = token;
+      localStorage.setItem(storeName, token);
+    },
+    deleteToken() {
+      this.token = null;
+      localStorage.removeItem(storeName);
+    },
+  },
 });

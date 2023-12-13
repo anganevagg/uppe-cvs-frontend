@@ -3,7 +3,9 @@
     <q-header elevated class="navbar">
       <q-toolbar class="row justify-between q-px-xl">
         <div>
-          <q-img src="~assets/logo.png" width="230px" />
+          <q-btn :to="{ path: '/' }" unelevated flat>
+            <q-img src="~assets/logo.png" width="230px" />
+          </q-btn>
         </div>
         <div v-if="isLoggedIn">
           <q-btn class="btn-primary" unelevated :to="{ name: 'Login' }">
@@ -12,7 +14,7 @@
           </q-btn>
         </div>
         <div v-else>
-          <q-btn class="btn-primary" unelevated :to="{ name: 'Login' }">
+          <q-btn class="btn-primary" unelevated :to="{ name: 'Profile' }">
             <div class="row justify-between items-center">
               <span>Mi perfil</span>
               <q-icon name="person" size="14px" />
@@ -35,7 +37,7 @@ export default defineComponent({
   name: 'MainLayout',
   setup() {
     const store = useLoginStore()
-    const isLoggedIn = computed(() => !!store.token)
+    const isLoggedIn = computed(() => !store.token)
     return {
       isLoggedIn
     }

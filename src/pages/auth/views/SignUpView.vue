@@ -1,14 +1,19 @@
 <template>
   <div class="row items-center justify-center">
-    <q-form ref="loginForm" class="q-gutter-y-md">
+    <q-form ref="signupForm" class="q-gutter-y-md">
       <span class="text-center col-12 login-label">
         Registrar
       </span>
-      <q-input class="col-12" v-model="name" label="Nombre" :rules="rules.required" lazy-rules no-error-icon tabindex="1">
+      <q-input class="col-12" v-model="firstName" label="Nombre" :rules="rules.required" lazy-rules no-error-icon
+        tabindex="1">
+
+      </q-input>
+      <q-input class="col-12" v-model="lastName" label="Apellidos" :rules="rules.required" lazy-rules no-error-icon
+        tabindex="2">
 
       </q-input>
       <q-input class="col-12" v-model="password" label="Contraseña" :type="showPassword ? 'text' : 'password'"
-        tabindex="2" no-error-icon :rules="rules.required">
+        tabindex="3" no-error-icon :rules="rules.required">
         <template #append>
           <q-btn padding="none" unelevated @click="showPassword = !showPassword">
             <q-icon :name="showPassword ? 'visibility_off' : 'visibility'">
@@ -18,7 +23,7 @@
         </template>
       </q-input>
       <div class="row">
-        <q-btn color="primary" @click="login" :loading="loadingLogin" tabindex="3" class="col-12">
+        <q-btn color="primary" @click="signup" :loading="loadingSignup" tabindex="4" class="col-12">
           Registrar
         </q-btn>
       </div>
@@ -30,27 +35,27 @@ import { Ref, ref } from 'vue';
 import { rules } from '../../../helpers/rules'
 import { QForm } from 'quasar';
 import { AuthService } from '../service';
-import { useLoginStore } from 'stores/login';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
+const router = useRouter()
+const route = useRoute()
+const code = route.params.code as string
 const showPassword = ref(false)
 const authService = new AuthService()
-const name = ref('')
+const firstName = ref('')
+const lastName = ref('')
 const password = ref('')
-const router = useRouter()
-let loginForm: Ref<QForm | null> = ref(null)
-const store = useLoginStore()
-const loadingLogin = ref(false)
-const login = async () => {
-  if (!loginForm.value) return
-  const success = await loginForm.value.validate()
+let signupForm: Ref<QForm | null> = ref(null)
+const loadingSignup = ref(false)
+const signup = async () => {
+  if (!signupForm.value) return
+  const success = await signupForm.value.validate()
   if (!success) return
-  await authService.login(loadingLogin, name.value, password.value)
-  if (store.token) {
-    router.push({
-      path: '/'
-    })
-  }
+  const registered = await authService.signup(loadingSignup, firstName.value, lastName.value, password.value, code)
+  if (!registered) return
+  router.push({
+    name: 'Login'
+  })
 }
 </script>
 

@@ -48,7 +48,7 @@ const login = async () => {
   await authService.login(loadingLogin, email.value, password.value)
   if (store.token) {
     router.push({
-      path: '/'
+      name: 'Profile'
     })
   }
 }

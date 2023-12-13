@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { auth } from 'pages/auth/routes';
+import { user } from 'src/pages/users/routes';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -16,6 +17,7 @@ const routes: RouteRecordRaw[] = [
     path: '/user',
     name: 'User',
     component: () => import('layouts/UserLayout.vue'),
+    children: [...user],
   },
   // Always leave this as last one,
   // but you can also remove it
